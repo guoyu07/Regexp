@@ -1,0 +1,16 @@
+/*<#日期 = "2017-2-9">
+  <#时间 = "4:15:39">
+  <#人物 = "buff" >
+  <#备注 = " ">     */
+body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{margin:0;padding:0} 
+body{font:16px/1.5 "Microsoft Yahei", 微软雅黑, arial,"宋体";background:#fff;-webkit-text-size-adjust:100%;} 
+a{color:#2d374b;text-decoration:none} a:hover{text-decoration:underline} em{font-style:normal} 
+li{list-style:none} img{border:0;vertical-align:middle} table{border-collapse:collapse;border-spacing:0} 
+p{word-wrap:break-word}input[type=text]{border: 1px #ccc solid;border-radius: 2px;}
+/******************+++++++++++++STRAT++++++++++++++++*********************/
+#main{position: relative;width: 1000px;margin: 20px auto 0px auto;border: 1px solid #ccccff;padding: 5px 10px;}
+header{width: 1000px;margin: 15px auto;text-align: center;}.red{color:red;}.margin_l_30{margin-left:30px;}
+p{margin: 10px 0px;}.purple{color:purple;}
+
+
+
