@@ -89,21 +89,46 @@ echo "<span class='red'>不捕获引用 (?:exp) (?=exp) (?&lt;=exp)</span> <span
        \w{2}    #匹配1-多个字符
        (?&lt;!     #后面不等于
         k\b     #k加字符边界
-        )/x';</pre><br/>
+        )/x';</pre>
         =====" . json_encode($matches6[0]) . "
 <hr/>
     ";
 echo "<span class='red'>懒惰匹配</span> 懒惰限定符 ?   当str='aabab' a.*b =aabab , a.*?b=[aab,ab]<br/><hr/>
      ";
-$str4='<third<second><first>这是最内处</first></second>third>';
-$str5='123asc124';
-$reg4="/(?'arg1'\d+)(?'-arg1'[a-z]+)(?'arg3'\d+)/";
-$reg5='/<
-        []
-        /x';
-preg_match($reg4, $str5,$matches);
-echo "<span class='red'>平衡组 递归匹配</span>".json_encode($matches)."
+$str4 = 'xx <aa <bbb> <bbb> aa> yy';
+$reg4 = "/<         #匹配一个<
+            [^<>]*
+            (
+                ( 
+                    (?'group'<)    #匹配一个<放入栈中
+                    [^<>]*
+                )+
+                (
+                    (?'-group'>)    #匹配一个<放入栈中
+                    [^<>]*
+                )+
+            )*
+            (?(group)(?!))      #如果栈中有group 则匹配(?!)后面跟着的任何不是.因为是空 即一定为假 匹配失败
+        >/x";
+$reg4_1="/<[^<>]*(((?'group'<)[^<>]*)+((?'-group'>)[^<>]*)+)*(?(group)(?!))>/";
+//preg_match($reg4, $str4, $matches7);
+echo "<span class='red'>平衡组 递归匹配</span> <span class='purple'>好像php不支持弹出栈中捕获组</span>
+    <br/>
     ";
+//echo json_encode($matches7[0]);
+$str6 = "请问php是世界上最好的语言吗";
+preg_match_all("/[\x{4e00}-\x{9fa5}]+/u", $str6, $matches);
+echo "<span class='red'>匹配utf-8码的汉字</span> \$str6= 请问php是世界上最好的语言吗<br/>
+    匹配模式为/[\x{4e00}-\x{9fa5}]+/u : \$matches[0]==== <br/>" . json_encode($matches[0]) . "<br/>
+    即中文的'{$matches[0][0]}'和'{$matches[0][1]}'<span class='purple'>
+        不知道为什么echo出来的数组就是中文,而json编码的确实utf-8编码的</span><br/><hr/>
+    ";
+    
+    
+    
+    
+    
+    
 echo "<span class='red'>元字符:</span><br/>
         \:转义字符 \\n 匹配\n \(匹配( 有元字符的转义一下<br/>
         \b:表示一个单词的边界<br/>
@@ -117,7 +142,14 @@ echo "<span class='red'>元字符:</span><br/>
         ^:匹配输入字符串的开始位置。<br/>
          :如果是在[]内表示非[^abc123]表示匹配非abc123中的任意值
         $:匹配输入字符串的结束位置。<br/>
+        \z:匹配输入字符串的结束位置。<br/>
+        \Z:匹配输入字符串的结束位置或者行尾<br/>
         \d:匹配一个数字b<br/>
+        \f:匹配换页符
+        \n:匹配换行符
+        \r:匹配回车符
+        \t:匹配制表符
+        \v:匹配垂直制表符
         {2}:匹配前面的值2次{2,}匹配前面的值2次以上,{2,4}匹配前面的值2-4次<br/>
         \s:匹配任意的空白符,包括空格,换行,制表符(tab)中文全角空格等<br/>
         \w:匹配任意字母 数字, 汉字或下划线<br/>
@@ -134,16 +166,11 @@ echo "<span class='red'>元字符:</span><br/>
         (?'-arg1' exp):将\k'arg1'组删除
         (?<arg1> exp):将exp匹配到的结果放入\k<arg1>中
         (?<-arg1> exp):将\k<arg1>组删除
-
-
-
-
-
-
-
-
-
-
-
+        i:不区分大小写
+        x:忽略空格
+        m:多行模式
+        s:将.设置为包含换行
+        u:默认字符串是utf-8的
+        
 ";
 require 'include/footer.inc.php';
