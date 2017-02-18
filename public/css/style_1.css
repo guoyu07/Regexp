@@ -10,7 +10,7 @@ p{word-wrap:break-word}input[type=text]{border: 1px #ccc solid;border-radius: 2p
 /******************+++++++++++++STRAT++++++++++++++++*********************/
 #main{position: relative;width: 1000px;margin: 20px auto 0px auto;border: 1px solid #ccccff;padding: 5px 10px;}
 header{width: 1000px;margin: 15px auto;text-align: center;}.red{color:red;}.margin_l_30{margin-left:30px;}
-p{margin: 10px 0px;}.purple{color:purple;}
+p{margin: 10px 0px;}.purple{color:#da00ff;}.green{color:#039203;}#tips{position:absolute;top: 0;right:0;}
 
 
 

@@ -7,7 +7,7 @@
 -->
 <html>
     <head>
-        <meta charset=UTF-8">
+        <meta charset="UTF-8">
         <title>正则表达式笔记</title>
         <link rel="stylesheet" type="text/css" href="public/css/style_1.css" >
     </head>
