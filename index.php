@@ -1,5 +1,4 @@
 <?php
-
 require 'include/header.inc.php';
 /*
   <#日期 = "2017-2-17">
@@ -10,6 +9,7 @@ require 'include/header.inc.php';
 $str1 = 'abd abfhj ab abc';
 preg_match('/ab/', $str1, $matches1);
 preg_match('/ab(.)?/', $str1, $matches2);
+echo"<h2>正则匹配</h2>";
 echo "<p><span class='red'>匹配一次模式:</span> preg_match(模式,原句,输出数组)返回0/1 错误返回false
     <br/>匹配到的结果给输出数组 \$matches. \$matches[0]表示匹配到的数组.\$matches[1]表示子查询中的值
     就是()里面的值依次类推.<br/>当前\$str1='abd abfhj ab abc' <br/>
@@ -67,6 +67,7 @@ $reg3_6 = '/\b            #匹配边界
             ){2}          #匹配前面的表达式2次
             \b            #匹配边界
             /x'; //忽略空格   不写x会出大事     
+echo "<span class='purple'>零宽断言内部不能有模糊查询,比如*?等<br/></span>";
 preg_match_all($reg3, $str2, $matches1);
 preg_match_all($reg3_2, $str2, $matches2);
 preg_match_all($reg3_3, $str2, $matches3);
@@ -110,7 +111,7 @@ $reg4 = "/<         #匹配一个<
             )*
             (?(group)(?!))      #如果栈中有group 则匹配(?!)后面跟着的任何不是.因为是空 即一定为假 匹配失败
         >/x";
-$reg4_1="/<[^<>]*(((?'group'<)[^<>]*)+((?'-group'>)[^<>]*)+)*(?(group)(?!))>/";
+$reg4_1 = "/<[^<>]*(((?'group'<)[^<>]*)+((?'-group'>)[^<>]*)+)*(?(group)(?!))>/";
 //preg_match($reg4, $str4, $matches7);
 echo "<span class='red'>平衡组 递归匹配</span> <span class='purple'>好像php不支持弹出栈中捕获组</span>
     <br/>
@@ -123,12 +124,6 @@ echo "<span class='red'>匹配utf-8码的汉字</span> \$str6= 请问php是世�
     即中文的'{$matches[0][0]}'和'{$matches[0][1]}'<span class='purple'>
         不知道为什么echo出来的数组就是中文,而json编码的确实utf-8编码的</span><br/><hr/>
     ";
-    
-    
-    
-    
-    
-    
 echo "<span class='red'>元字符:</span><br/>
         \:转义字符 \\n 匹配\n \(匹配( 有元字符的转义一下<br/>
         \b:表示一个单词的边界<br/>
@@ -170,7 +165,53 @@ echo "<span class='red'>元字符:</span><br/>
         x:忽略空格
         m:多行模式
         s:将.设置为包含换行
-        u:默认字符串是utf-8的
-        
+        u:默认字符串是utf-8的  文本中有中文好像就要用<hr/>
 ";
+$buff_phone_mes = "buff的mobile phone号码是18012344321";
+$reg = "/
+                    ([A-Za-z]+)    #匹配英文字符1个以上
+                    的             #匹配中文字符的
+                    ([A-Za-z\s]+)  #匹配最少一个英文字符或空格制表符
+                    \w+            #匹配最少一个字符
+                    ([\d]{3})      #匹配3个数字 手机号码前三位
+                    ([\d]{8})      #匹配8个数字
+                    /xu";          //x表示忽略空格 u表示针对utf-8
+preg_match($reg, $buff_phone_mes, $res);
+?>
+<p>
+    <span class='red'>子匹配组 ()中内容存到$res[1~...]<br/></span> 
+    <span>$res[0]表示整个正则匹配到的内容<br/></span>
+    <span>$res[1]表示第一个括号中匹配到的内容,依次类推<br/></span>
+    <span>在正则替换模式中可以用\1 \2 或者$1$2代替第一二个子匹配<br/></span>
+</p>
+<pre>
+$buff_phone_mes = "buff的mobile phone号码是18012344321";
+$reg = "/
+                    ([A-Za-z]+)    #匹配英文字符1个以上
+                    的             #匹配中文字符的
+                    ([A-Za-z\s]+)  #匹配最少一个英文字符或空格制表符
+                    \w+            #匹配最少一个字符
+                    ([\d]{3})      #匹配3个数字 手机号码前三位
+                    ([\d]{8})      #匹配8个数字
+                    /xu";          //x表示忽略空格 u表示针对utf-8
+preg_match($reg, $buff_phone_mes, $res);
+</pre>
+<p>
+    <span>print_r($res) :<br/></span> 
+</p>
+<pre><?php print_r($res); ?></pre>
+<?php
+$reg_ph = ['/[A-Za-z]+的/', '/\d{11}/'];
+$mes_replace = ["wuwei的", "17417454250"];
+$new_mes = preg_replace($reg_ph, $mes_replace, $buff_phone_mes, -1, $count);
+?>
+<h2>正则替换</h2>
+<p>
+    <span class='red'>替换字符串中的内容 preg_replace()<br/></span> 
+    <span>当前$str="<?php echo $buff_phone_mes; ?>";<br/></span>
+    <span>使用$reg = ['/[A-Za-z]+的/', '/\d{11}/'];<br/></span>
+    <span>$mes_replace = ["wuwei的", "17417454250"];执行替换后<br/></span>
+    <span>当前$new_mes="<?php echo $new_mes; ?>";<br/></span>
+</p>
+<?php
 require 'include/footer.inc.php';
